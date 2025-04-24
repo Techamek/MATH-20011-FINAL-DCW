@@ -1,6 +1,6 @@
 ---
 title: "Final_project-DCW"
-author: "David Austin, Colin, Will"
+author: "David Austin, Collin, Will"
 date: "2025-04-15"
 output: pdf_document
 ---
@@ -51,4 +51,25 @@ ggplot(diamonds, aes(x = color, y = price, fill = color)) +
   geom_boxplot() +
   ggtitle("Price by Diamond Color") +
   theme_minimal()
+
+# Statistical Analysis
+
+# Grouped summary statistics by color: mean price, SD(standard deviation), and count
+# Helps us see general trends—e.g., which color grades are associated with higher or lower prices
+diamonds %>%
+  group_by(color) %>%
+  summarise(mean_price = mean(price), sd_price = sd(price), count = n())
+
+# One-way ANOVA: Tests the null hypothesis that all color groups have the same average price
+anova_result <- aov(price ~ color, data = diamonds)
+summary(anova_result)
+# If the p-value in the summary is < 0.05, we reject the null hypothesis,
+# suggesting that at least one color group has a significantly different mean price.
+# This means color is likely a relevant factor influencing diamond pricing.
+
+# Post-hoc test (Tukey’s HSD): Performs pairwise comparisons between color groups
+TukeyHSD(anova_result)
+# If the confidence interval for a color pair does not include 0 and the adjusted p-value is < 0.05,
+# then those two color groups differ significantly in mean price.
+# This tells us exactly which colors are priced differently from each other.
 ```
