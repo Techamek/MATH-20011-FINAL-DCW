@@ -46,4 +46,9 @@ ggplot(diamonds_sample, aes(x = carat, y = price)) +
   geom_point(alpha = 0.6) +
   geom_smooth(method = "lm", se = FALSE, color = "blue") +
   ggtitle("Price vs Carat (Sample of 1000 Diamonds)")
+# Boxplot of Price by Color
+ggplot(diamonds, aes(x = color, y = price, fill = color)) +
+  geom_boxplot() +
+  ggtitle("Price by Diamond Color") +
+  theme_minimal()
 ```
