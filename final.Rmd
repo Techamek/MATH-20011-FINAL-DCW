@@ -1,6 +1,6 @@
 ---
 title: "Final_project-DCW"
-author: "David Austin, Collin, Will"
+author: "David Austin, Colin, Will"
 date: "2025-04-15"
 output: pdf_document
 ---
