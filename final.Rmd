@@ -1,0 +1,49 @@
+---
+title: "Final_project-DCW"
+author: "David Austin, Collin, Will"
+date: "2025-04-15"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+``` 
+
+## Introduction
+
+```{r load-data}
+library(ggplot2)
+data(diamonds)
+str(diamonds)
+summary(diamonds)
+```
+
+## Exploratory Data Analysis
+
+```{r eda-visualizations, message=FALSE, warning=FALSE}
+library(dplyr)
+
+# Histogram of Price
+ggplot(diamonds, aes(x = price)) + 
+  geom_histogram(binwidth = 500, fill = "steelblue", color = "black") +
+  ggtitle("Distribution of Diamond Prices")
+
+# Histogram of Carat
+ggplot(diamonds, aes(x = carat)) + 
+  geom_histogram(binwidth = 0.1, fill = "salmon", color = "black") +
+  ggtitle("Distribution of Carat")
+
+# Boxplot of Price by Cut
+ggplot(diamonds, aes(x = cut, y = price)) + 
+  geom_boxplot(fill = "lightgreen") +
+  ggtitle("Price by Cut")
+
+# Scatterplot of Price vs Carat
+set.seed(123)
+diamonds_sample <- diamonds[sample(nrow(diamonds), 1000), ]
+
+ggplot(diamonds_sample, aes(x = carat, y = price)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  ggtitle("Price vs Carat (Sample of 1000 Diamonds)")
+```
