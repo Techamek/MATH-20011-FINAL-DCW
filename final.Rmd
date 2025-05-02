@@ -11,6 +11,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introduction
 
+__diamonds Overview:__ The diamonds dataset focuses on the different qualities of commercial diamonds (carat, color, price, etc.). (Talk more about each variable)
+
+## Specific Questions
+
+__Color and Price:__ The largest question we hope to answer with this dataset is concluding whether the color of a diamond is correlated to its market price. We will answer this by...
+
 ```{r load-data}
 library(ggplot2)
 data(diamonds)
@@ -73,3 +79,14 @@ TukeyHSD(anova_result)
 # then those two color groups differ significantly in mean price.
 # This tells us exactly which colors are priced differently from each other.
 ```
+
+## Results
+
+__Notable Statistics:__ Put it here once we finish the data collection.
+
+
+## Conclusion
+
+__Limitations:__ Put limitations here 
+
+__Potentially Helpful Data Sets:__ Put data sets here
