@@ -11,7 +11,25 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introduction
 
-__diamonds Overview:__ The diamonds dataset focuses on the different qualities of commercial diamonds (carat, color, price, etc.). (Talk more about each variable)
+__diamonds Overview:__ The diamonds dataset focuses on the different qualities of commercial diamonds (carat, color, price, etc.). There are 53940 entries.
+
+## Variables
+
+__price:__ The diamond's price in US dollars
+
+__carat:__ The diamond's weight
+
+__cut:__ The quality of the diamond's cut (Fair, Good, Very Good, Premium, Ideal)
+
+__color:__ The color of the diamond, from D(best) to J(worst)
+
+__clarity:__ The clearness of the diamond (I1(worst), SI2, SI1, VS2, VS1, VVS2, VVS1, IF(best))
+
+__x,y,z:__ The length, width, and depth of the diamond respectively (in mm)
+
+__depth:__ The total depth percentage (z/mean(x,y))
+
+__table:__ The wide of the top of the diamond relative to its widest point
 
 ## Specific Questions
 
