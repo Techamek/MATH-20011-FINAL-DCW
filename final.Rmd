@@ -53,17 +53,29 @@ library(dplyr)
 ggplot(diamonds, aes(x = price)) + 
   geom_histogram(binwidth = 500, fill = "steelblue", color = "black") +
   ggtitle("Distribution of Diamond Prices")
+```
 
+The Histogram above shows the price diamonds from $0 to $20,000 and their popularity. Based on this histogram, we can see visually that the most popular price when it comes to popularity is around the $500 - $1000 range with a steady decrease as the price increases
+  
+```{r}
 # Histogram of Carat
 ggplot(diamonds, aes(x = carat)) + 
   geom_histogram(binwidth = 0.1, fill = "salmon", color = "black") +
   ggtitle("Distribution of Carat")
+```
 
+This Histogram shows the distribution of carats from 0.1 to 5.0 carats and there popularity/count ranging from 0 to over 10,000. Visualizing the data, we can see when is comes to carat distribution, 0.3 is considered the most popular with a decrease going forward with noticeable burst at the 0.7 and 1.0.
+
+```{r}
 # Boxplot of Price by Cut
 ggplot(diamonds, aes(x = cut, y = price)) + 
   geom_boxplot(fill = "lightgreen") +
   ggtitle("Price by Cut")
+```
 
+The boxplot illustrates the distribution of diamond prices across five cut categories: Fair, Good, Very Good, Premium, and Ideal. The median prices vary noticeably between categories. The "Premium" cut shows the highest median price, followed by "Fair" and "Good," whereas the "Ideal" cut, despite being regarded as the highest quality, has a lower median price. This suggests that while cut quality impacts price, other factors such as carat, color, and clarity also significantly influence the overall value. Additionally, the spread of prices (interquartile range) is similar across cuts, with "Premium" and "Very Good" cuts displaying slightly larger variability.
+
+```{r}
 # Scatterplot of Price vs Carat
 set.seed(123)
 diamonds_sample <- diamonds[sample(nrow(diamonds), 1000), ]
@@ -72,12 +84,22 @@ ggplot(diamonds_sample, aes(x = carat, y = price)) +
   geom_point(alpha = 0.6) +
   geom_smooth(method = "lm", se = FALSE, color = "blue") +
   ggtitle("Price vs Carat (Sample of 1000 Diamonds)")
+```
+
+This scatterplot visualizes the relationship between diamond price and carat weight for a random sample of 1,000 diamonds from the diamonds dataset. The plot reveals a strong positive linear relationship: as carat increases, price generally rises. While the trend is clear, there’s noticeable spread around the line, especially at certain carat sizes, indicating some variability in pricing even among diamonds of the same weight—likely due to factors like cut, color, and clarity.
+
+```{r}
 # Boxplot of Price by Color
 ggplot(diamonds, aes(x = color, y = price, fill = color)) +
   geom_boxplot() +
   ggtitle("Price by Diamond Color") +
   theme_minimal()
+```
 
+This boxplot visualizes the distribution of diamond prices across different color grades from the diamonds dataset. The x-axis represents distinct diamond colors (D–J), while the y-axis displays price, ranging up to 20,000. Each box encapsulates the interquartile range.
+The plot reveals noticeable differences in diamond pricing based on color. Certain color grades exhibit higher median prices, suggesting a potential market preference or rarity effect. The variability in price also differs by color, with some showing a wider range while others are more consistent.
+
+```{r}
 # Statistical Analysis
 
 # Grouped summary statistics by color: mean price, SD(standard deviation), and count
