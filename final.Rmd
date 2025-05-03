@@ -1,8 +1,10 @@
 ---
 title: "Final_project-DCW"
-author: "David Austin, Collin, Will"
+author: "David Austin, Collin, Wil Nahra"
 date: "2025-04-15"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
