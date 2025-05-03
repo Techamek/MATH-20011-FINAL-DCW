@@ -35,7 +35,7 @@ __table:__ The wide of the top of the diamond relative to its widest point
 
 ## Specific Questions
 
-__Color and Price:__ The largest question we hope to answer with this dataset is concluding whether the color of a diamond is correlated to its market price. We will answer this by...
+__Color and Price:__ The largest question we hope to answer with this dataset is concluding whether the color of a diamond is correlated to its market price. We will answer this by comparing the variables in multiple different ways. Firstly, we show various graphs comparing different variables to price in order to draw a general trend. Then, we will create a box plot comparing color and price to show the spread of data for each color in order to see which color tends to be the most valuable. Then we show a statistics table with data (mean price, count, color, standard deviation price) in order to show empirical proof of our findings. Lastly, we show a p-table to draw whether or not this is caused entirely by chance.
 
 ```{r load-data}
 library(ggplot2)
