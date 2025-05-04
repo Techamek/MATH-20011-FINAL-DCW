@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introduction
 
-__Diamonds Overview:__ The diamonds dataset focuses on the different qualities of commercial diamonds (carat, color, price, etc.). There are 53940 entries.
+__Diamonds Overview:__ diamonds is a dataset in the ggplot2 package. This dataset is comprised of 53,940 commercial round-cut diamonds sold in retail markets, with each row being an entry regarding a single diamond and has data on 10 different qualities (carat, color, price, etc.). This data was gathered from an observational study, as there was no manipulation or experiment. This data was likely gathered via convenience sampling from a single retailer which could introduce bias on cut quality. Also, there could be selection bias as this data only draws from commerical round-cut diamonds, which excludes other diamond types (square-cut, rare, high-end, etc.). There are many possible confounding variables such as carat, clarity, and cut that may have significant effects on diamond pricing.
 
 ## Variables
 
@@ -235,9 +235,18 @@ Similarly, E vs. other lower color grades also display strong significance, with
 
 ## Conclusion
 
-__Limitations:__ Put limitations here 
+__Scope:__ The analysis somewhat answers our question. Specifically, the scope of the diamonds dataset is round-cut commercial-quality diamonds, meaning that color impacts the pricing of these types of diamonds. Other types of diamonds are not included and thus fall outside the scope of this analysis.
 
-__Potentially Helpful Data Sets:__ Put data sets here
+__Limitations:__
 
+__Confounding Variables:__ While our data focuses on the relationship between color and price, the other variables, such as carat and clarity, also have a significant effect on diamond prices. We would need more control to account for other variables so as to not overestimate the effect of color on pricing.
 
-__Potentially Helpful Data Sets:__ Put data sets here
+__Data Sourcing:__ This dataset is only comprised of commercially sold diamonds which does is not representative of the entire market. For instance, color may not have the same level of impact on rare-grade diamonds as it does on the commercial market. Also, because the data comes from one source, there may be regional biases that affect the results.
+
+__Potentially Helpful Data Sets:__
+
+__Diamond Certification Reports (GIA):__ The Gemological Institute of America has a large database of different types of diamonds, such as lab-grown, natural, and natural colored diamonds. Future analysis could use this database to determine if color affects price for all types of diamond.
+
+__Auction Houses (Sotheby's):__ Auction houses would provide data for high-end diamonds which can be used to compare the effects of color on price between different diamond qualities.
+
+__Potential Research:__ For future analysis, variables such as carat, cut, clarity, and size (x,y,z) should be further analyzed to ensure color has a distinct affect on price and is unaffected by other measurements. In addition to this, a variable that categorizes the diamond's overall quality (commercial, rare, investment-grade) to compare the effect of color on pricing across separate types of diamonds. Lastly, a variable that specifies the region the diamond was bought should be recorded to make sure the sample is representative. A larger sample than the diamonds dataset (100,000+) would be ideal so that there is enough data to account for different regions and rarity. To get this data, multiple unaffiliated diamond classifying databases should be used to ensure data doesn't overlap and is representative.
