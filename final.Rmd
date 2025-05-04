@@ -136,7 +136,9 @@ ggplot(color_ci, aes(x = color, y = mean_price)) +
   geom_errorbar(aes(ymin = lower_ci, ymax = upper_ci), width = 0.3, color = "darkgray") +
   ggtitle("95% Confidence Intervals for Mean Price by Color") +
   ylab("Mean Price (USD)") + theme_minimal()
+```
 
+```{r}
 # Function for two-sample z-test
 z_test <- function(mean1, mean2, sd1, sd2, n1, n2) {
   se_diff <- sqrt((sd1^2 / n1) + (sd2^2 / n2))
@@ -180,7 +182,7 @@ __H__: (4395.99, 4577.35)
 __I__: (4966.17, 5217.58)  
 __J__: (5159.66, 5487.98)  
 
-david- authors note if the intervals don't overlap then the colors have significance difference like how since E clips into D you cant say its significantly different in mean price but as you can see some of them are very far apart like D and J kiss kiss
+Using a 95% confidence interval, we observe that diamonds with color grade J have a higher estimated mean price than other color grades, with the interval ranging from $5,159.66 to $5,487.98. We also notice that some color grades, such as D and E, have overlapping confidence intervals, indicating that their mean prices are not significantly different.
 
 __Two sample Z-Test Highlights (z and p scores)__:  
 __D vs E__: z = 1.76, p = 7.84e-02  
@@ -204,9 +206,10 @@ __G vs J__: z = -9.43, p = 4.74e-21
 __H vs I__: z = -5.21, p = 1.87e-07  
 __H vs J__: z = -4.01, p = 6.07e-05  
 __I vs J__: z = -1.38, p = 1.68e-01  
- 
-david- authors note a big z-score like 2> or <-2 shows how many standard errors the difference between the color groups are like in a normal distribution so like D vs I with fucking -24 is giga abnormal and not explainable to chance suggesting a meaningful difference, p-value is simple if its <0.05 reject null >=0.5 cant reject null
-also null and alternative hypothesis are above the statistical analysis section idk where else to put it anyway cheers
+
+The two-sample Z-tests reveal significant differences in mean diamond prices across most color grade comparisons. Notably, comparisons involving color grades D vs. F through D vs. J all show extremely large negative z-scores (e.g., D vs. J: z = -24.06, p ≈ 3.17e-128), indicating highly significant differences that are far beyond what would be expected by chance.
+
+Similarly, E vs. other lower color grades also display strong significance, with p-values effectively zero. In contrast, comparisons between adjacent high-quality grades, such as D vs. E (z = 1.76, p ≈ 0.078) and I vs. J (z = -1.38, p ≈ 0.168), show no statistically significant difference, as their p-values exceed 0.05.
 
 ## Conclusion
 
