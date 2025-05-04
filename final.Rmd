@@ -129,7 +129,15 @@ color_ci <- diamonds %>%
 
 # Print the confidence interval table
 color_ci
+```
 
+to begin, we first calculating grouped summary statistics for each color, including the mean price, standard deviation of prices, and the count of diamonds in each color group using dplyr's group_by() and summarise() functions. These statistics provide a general view of price trends associated with different color grades. 
+
+Next, we calculate 95% confidence intervals for the mean price of diamonds in each color group. This is done by computing the standard error (se), then applying the standard formula for a 95% confidence interval, which uses the z-value of 1.96. The resulting confidence intervals (both lower and upper bounds) are included in the output. 
+
+Finally, the color_ci data frame, which includes the mean price, standard deviation, count, standard error, and confidence intervals for each color, is printed.
+
+```{r}
 # Plot confidence intervals for mean price by color
 ggplot(color_ci, aes(x = color, y = mean_price)) +
   geom_point(size = 3, color = "blue") +
@@ -137,6 +145,8 @@ ggplot(color_ci, aes(x = color, y = mean_price)) +
   ggtitle("95% Confidence Intervals for Mean Price by Color") +
   ylab("Mean Price (USD)") + theme_minimal()
 ```
+
+The graph shown above is a visualization of the mean price by color with a 95% confidence interval.
 
 ```{r}
 # Function for two-sample z-test
@@ -146,7 +156,16 @@ z_test <- function(mean1, mean2, sd1, sd2, n1, n2) {
   p <- 2 * pnorm(-abs(z))  # two-tailed p-value
   return(c(z_score = z, p_value = p))
 }
+```
+The function shown about is used for the two-sample z-test. for the function, it takes as input the means, standard deviations, and sample sizes of both groups. 
 
+First, it calculates the standard error of the difference between the two means. 
+
+Then, it computes the z-score, which measures how far apart the sample means are in terms of standard errors. 
+
+Finally, it calculates the two-tailed p-value, representing the probability of observing such a difference (or more extreme) if the true means were equal. The function returns both the z-score and the p-value, allowing us to assess whether the difference between the two groups is statistically significant. 
+
+```{r}
 # Compare all unique pairs of colors
 color_pairs <- combn(color_ci$color, 2, simplify = FALSE)
 
@@ -164,11 +183,14 @@ z_test_results <- lapply(color_pairs, function(pair) {
     Significant = ifelse(z_stats["p_value"] < 0.05, "Yes", "No")
   )
 })
-
 # Combine into a data frame and display
 z_table <- do.call(rbind, z_test_results)
 print(z_table)
 ```
+
+First, it generates all possible color pairs using combn().Then, for each pair, it filters the dataset color_ci to get the statistics (mean price, standard deviation, and sample size) for each color. It applies the previously defined z_test function to compute the z-score and p-value for the difference between their mean prices. The results—including the color comparison, z-score (rounded), p-value (formatted in scientific notation), and a significance flag indicating whether p < 0.05—are stored in a data frame. 
+
+Finally, it combines all results into a single table z_table and prints it, summarizing which color pairs have statistically significant price differences.
 
 ## Results
 
