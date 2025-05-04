@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introduction
 
-__diamonds Overview:__ The diamonds dataset focuses on the different qualities of commercial diamonds (carat, color, price, etc.). There are 53940 entries.
+__Diamonds Overview:__ The diamonds dataset focuses on the different qualities of commercial diamonds (carat, color, price, etc.). There are 53940 entries.
 
 ## Variables
 
@@ -99,6 +99,11 @@ ggplot(diamonds, aes(x = color, y = price, fill = color)) +
 This boxplot visualizes the distribution of diamond prices across different color grades from the diamonds dataset. The x-axis represents distinct diamond colors (D–J), while the y-axis displays price, ranging up to 20,000. Each box encapsulates the interquartile range.
 The plot reveals noticeable differences in diamond pricing based on color. Certain color grades exhibit higher median prices, suggesting a potential market preference or rarity effect. The variability in price also differs by color, with some showing a wider range while others are more consistent.
 
+To further investigate this correlation we will use a one-way ANOVA.
+Null Hypothesis H_o: The mean price of diamonds is the same across all color grades (D-J).
+Alternative Hypothesis H_1: At least one color group has a different mean price.
+If the P value is less than 0.05, we will reject the null hypothesis and conclude that color has a significant effect on price.
+
 ```{r}
 # Statistical Analysis
 
@@ -108,27 +113,106 @@ diamonds %>%
   group_by(color) %>%
   summarise(mean_price = mean(price), sd_price = sd(price), count = n())
 
-# One-way ANOVA: Tests the null hypothesis that all color groups have the same average price
-anova_result <- aov(price ~ color, data = diamonds)
-summary(anova_result)
-# If the p-value in the summary is < 0.05, we reject the null hypothesis,
-# suggesting that at least one color group has a significantly different mean price.
-# This means color is likely a relevant factor influencing diamond pricing.
+# Calculate 95% confidence intervals for mean price by color
+library(dplyr)
 
-# Post-hoc test (Tukey’s HSD): Performs pairwise comparisons between color groups
-TukeyHSD(anova_result)
-# If the confidence interval for a color pair does not include 0 and the adjusted p-value is < 0.05,
-# then those two color groups differ significantly in mean price.
-# This tells us exactly which colors are priced differently from each other.
+color_ci <- diamonds %>%
+  group_by(color) %>%
+  summarise(
+    mean_price = mean(price),
+    sd_price = sd(price),
+    n = n(),
+    se = sd_price / sqrt(n),
+    lower_ci = mean_price - 1.96 * se,
+    upper_ci = mean_price + 1.96 * se
+  )
+
+# Print the confidence interval table
+color_ci
+
+# Plot confidence intervals for mean price by color
+ggplot(color_ci, aes(x = color, y = mean_price)) +
+  geom_point(size = 3, color = "blue") +
+  geom_errorbar(aes(ymin = lower_ci, ymax = upper_ci), width = 0.3, color = "darkgray") +
+  ggtitle("95% Confidence Intervals for Mean Price by Color") +
+  ylab("Mean Price (USD)") + theme_minimal()
+
+# Function for two-sample z-test
+z_test <- function(mean1, mean2, sd1, sd2, n1, n2) {
+  se_diff <- sqrt((sd1^2 / n1) + (sd2^2 / n2))
+  z <- (mean1 - mean2) / se_diff
+  p <- 2 * pnorm(-abs(z))  # two-tailed p-value
+  return(c(z_score = z, p_value = p))
+}
+
+# Compare all unique pairs of colors
+color_pairs <- combn(color_ci$color, 2, simplify = FALSE)
+
+# Run z-tests and collect results
+z_test_results <- lapply(color_pairs, function(pair) {
+  c1 <- filter(color_ci, color == pair[1])
+  c2 <- filter(color_ci, color == pair[2])
+  
+  z_stats <- z_test(c1$mean_price, c2$mean_price, c1$sd_price, c2$sd_price, c1$n, c2$n)
+  
+  data.frame(
+    Comparison = paste(pair[1], "vs", pair[2]),
+    Z_Score = round(z_stats["z_score"], 2),
+    P_Value = format(z_stats["p_value"], scientific = TRUE, digits = 2),
+    Significant = ifelse(z_stats["p_value"] < 0.05, "Yes", "No")
+  )
+})
+
+# Combine into a data frame and display
+z_table <- do.call(rbind, z_test_results)
+print(z_table)
 ```
 
 ## Results
 
-__Notable Statistics:__ Put it here once we finish the data collection.
+__Notable Statistics:__
+__95% confidence Intervals (USD)__:  
+__D__: (3090.03, 3249.88)  
+__E__: (3010.53, 3142.97)  
+__F__: (3648.94, 3800.83)  
+__G__: (3924.41, 4073.86)  
+__H__: (4395.99, 4577.35)  
+__I__: (4966.17, 5217.58)  
+__J__: (5159.66, 5487.98)  
 
+david- authors note if the intervals don't overlap then the colors have significance difference like how since E clips into D you cant say its significantly different in mean price but as you can see some of them are very far apart like D and J kiss kiss
+
+__Two sample Z-Test Highlights (z and p scores)__:  
+__D vs E__: z = 1.76, p = 7.84e-02  
+__D vs F__: z = -9.86, p = 5.90e-23  
+__D vs G__: z = -14.85, p = 6.61e-50  
+__D vs H__: z = -21.35, p = 3.87e-101  
+__D vs I__: z = -25.29, p = 4.29e-141  
+__D vs J__: z = -24.06, p = 3.17e-128  
+__E vs F__: z = -12.14, p = 1.02e-33  
+__E vs G__: z = -17.20, p = 2.81e-66  
+__E vs H__: z = -23.16, p = 1.99e-118  
+__E vs I__: z = -27.15, p = 1.86e-162  
+__E vs J__: z = -26.01, p = 3.64e-149  
+__F vs G__: z = -5.06, p = 4.17e-07  
+__F vs H__: z = -11.00, p = 1.99e-28  
+__F vs I__: z = -15.53, p = 3.57e-54  
+__F vs J__: z = -14.51, p = 1.17e-47  
+__G vs H__: z = -6.09, p = 1.15e-09  
+__G vs I__: z = -10.58, p = 5.26e-26  
+__G vs J__: z = -9.43, p = 4.74e-21  
+__H vs I__: z = -5.21, p = 1.87e-07  
+__H vs J__: z = -4.01, p = 6.07e-05  
+__I vs J__: z = -1.38, p = 1.68e-01  
+ 
+david- authors note a big z-score like 2> or <-2 shows how many standard errors the difference between the color groups are like in a normal distribution so like D vs I with fucking -24 is giga abnormal and not explainable to chance suggesting a meaningful difference, p-value is simple if its <0.05 reject null >=0.5 cant reject null
+also null and alternative hypothesis are above the statistical analysis section idk where else to put it anyway cheers
 
 ## Conclusion
 
 __Limitations:__ Put limitations here 
+
+__Potentially Helpful Data Sets:__ Put data sets here
+
 
 __Potentially Helpful Data Sets:__ Put data sets here
